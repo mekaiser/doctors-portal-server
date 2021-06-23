@@ -24,10 +24,9 @@ const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 client.connect((err) => {
-  const appointmentsCollection = client
-    .db("doctorsPortal")
-    .collection("appointments");
+  const appointmentsCollection = client.db("doctorsPortal").collection("appointments");
   const doctorCollection = client.db("doctorsPortal").collection("doctors");
 
   app.post("/addAppointment", (req, res) => {
