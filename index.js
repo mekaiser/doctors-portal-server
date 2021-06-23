@@ -33,7 +33,6 @@ client.connect((err) => {
 
   app.post("/addAppointment", (req, res) => {
     const appointment = req.body;
-    console.log(appointment);
     appointmentsCollection.insertOne(appointment).then((result) => {
       res.send(result.insertedCount > 0);
     });
@@ -73,7 +72,6 @@ client.connect((err) => {
       size: file.size,
       img: Buffer.from(encImg, "base64"),
     };
-    console.log(image);
 
     doctorCollection.insertOne({ name, email, image }).then((result) => {
       res.send(result.insertedCount > 0);
@@ -88,11 +86,11 @@ client.connect((err) => {
 
   app.post("/isDoctor", (req, res) => {
     const email = req.body.email;
-
     doctorCollection.find({ email: email }).toArray((err, doctors) => {
       res.send(doctors.length > 0);
     });
   });
+
 });
 
 app.listen(process.env.PORT || port);
