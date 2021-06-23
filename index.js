@@ -24,20 +24,21 @@ const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 client.connect((err) => {
-  const appointmentsCollection = client.db("doctorsPortal").collection("appointments");
+  const appointmentCollection = client
+    .db("doctorsPortal")
+    .collection("appointments");
   const doctorCollection = client.db("doctorsPortal").collection("doctors");
 
   app.post("/addAppointment", (req, res) => {
     const appointment = req.body;
-    appointmentsCollection.insertOne(appointment).then((result) => {
+    appointmentCollection.insertOne(appointment).then((result) => {
       res.send(result.insertedCount > 0);
     });
   });
 
   app.get("/appointments", (req, res) => {
-    appointmentsCollection.find({}).toArray((err, documents) => {
+    appointmentCollection.find({}).toArray((err, documents) => {
       res.send(documents);
     });
   });
@@ -45,14 +46,13 @@ client.connect((err) => {
   app.post("/appointmentsByDate", (req, res) => {
     const date = req.body;
     const email = req.body.email;
-    console.log(date.date);
-
     doctorCollection.find({ email: email }).toArray((err, doctors) => {
       const filter = { date: date.date };
       if (doctors.length === 0) {
         filter.email = email;
       }
-      appointmentsCollection.find(filter).toArray((err, documents) => {
+      appointmentCollection.find(filter).toArray((err, documents) => {
+        console.log(email, date.date, doctors, documents);
         res.send(documents);
       });
     });
@@ -88,7 +88,6 @@ client.connect((err) => {
       res.send(doctors.length > 0);
     });
   });
-
 });
 
 app.listen(process.env.PORT || port);
