@@ -65,17 +65,10 @@ client.connect((err) => {
     const file = req.files.file;
     const name = req.body.name;
     const email = req.body.email;
-    //   const filePath = `${__dirname}/doctors/${file.name}`;
-    //   file.mv(filePath, err => {
-    //       if(err){
-    //           console.log(err);
-    //           res.status(500).send({msg: 'Failed to upload Image'})
-    //       }
     const newImg = file.data;
     const encImg = newImg.toString("base64");
 
     var image = {
-      // description:  req.body.description,
       contentType: file.mimetype,
       size: file.size,
       img: Buffer.from(encImg, "base64"),
@@ -83,15 +76,8 @@ client.connect((err) => {
     console.log(image);
 
     doctorCollection.insertOne({ name, email, image }).then((result) => {
-      // fs.remove(filePath, error => {
-      //     if(error){
-      //         console.log(error);
-      //         res.status(500).send({msg: 'Failed to upload Image'})
-      // }
       res.send(result.insertedCount > 0);
-      // })
     });
-    //   })
   });
 
   app.get("/doctors", (req, res) => {
