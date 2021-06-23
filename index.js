@@ -71,13 +71,13 @@ client.connect((err) => {
     //           console.log(err);
     //           res.status(500).send({msg: 'Failed to upload Image'})
     //       }
-    const newImg = req.files.file.data;
+    const newImg = file.data;
     const encImg = newImg.toString("base64");
 
     var image = {
       // description:  req.body.description,
-      contentType: req.files.file.mimetype,
-      size: req.files.file.size,
+      contentType: file.mimetype,
+      size: file.size,
       img: Buffer.from(encImg, "base64"),
     };
     console.log(image);
