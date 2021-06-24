@@ -88,6 +88,10 @@ client.connect((err) => {
       res.send(doctors.length > 0);
     });
   });
+
+  app.get("/", (req, res) => {
+    res.send("Hello World!");
+  });
 });
 
 app.listen(process.env.PORT || port);
